@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
          mAdapter = Adapter()
         setupRecyclerView()
 
-        viewModel.getPosts()
         lifecycleScope.launchWhenCreated {
             viewModel._postStateFlow.collect { apiState ->
               when(apiState){

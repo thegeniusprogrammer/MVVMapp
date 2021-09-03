@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flowOn
 
 class Repository {
 
-    fun  getPosts():Flow<List<Posts>> = flow {
+     fun  getPosts():Flow<List<Posts>> = flow {
         emit(RetrofitInstance.api.getPosts())
     }.flowOn(IO)
 }

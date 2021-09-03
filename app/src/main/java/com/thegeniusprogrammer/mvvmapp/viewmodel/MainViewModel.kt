@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thegeniusprogrammer.mvvmapp.repository.Repository
 import com.thegeniusprogrammer.mvvmapp.utils.APIsResponse
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -15,7 +16,12 @@ import kotlinx.coroutines.launch
     private val postFlow: MutableStateFlow<APIsResponse> = MutableStateFlow(APIsResponse.Empty)
      val _postStateFlow:StateFlow<APIsResponse> = postFlow
 
-    fun getPosts() = viewModelScope.launch {
+
+     init {
+         getPosts()
+     }
+
+    private fun getPosts() = viewModelScope.launch(IO) {
         postFlow.value = APIsResponse.Loading
         repository.getPosts().catch {
             postFlow.value = APIsResponse.Failed(error = it)
@@ -23,6 +29,8 @@ import kotlinx.coroutines.launch
             postFlow.value = APIsResponse.Success(it)
         }
     }
+
+    
 
 
 }
